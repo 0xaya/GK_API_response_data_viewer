@@ -1,0 +1,109 @@
+body {
+  font-family: Arial, sans-serif;
+  width: 400px;
+  padding: 20px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: larger;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+input[type="text"] {
+  width: 70%;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+button {
+  padding: 5px 10px;
+}
+
+#result {
+  margin-top: 20px;
+}
+
+.equip_image {
+  width: 100px;
+  display: inline-block;
+}
+
+.main_info {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.main_info__text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.tag {
+  background: #ddd;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+.name {
+  order: 1;
+  width: 75%;
+}
+.numbering {
+  order: 2;
+  flex: 1;
+  text-align: right;
+  font-weight: bold;
+  font-size: larger;
+}
+.rarity {
+  order: 3;
+}
+.item_type {
+  order: 4;
+}
+.parts_type {
+  order: 5;
+}
+
+.attr_list {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.attr_value {
+  font-weight: 600;
+  color: rgb(255, 49, 145);
+}
+
+.attr_resist {
+  display: inline-block;
+  margin-right: 10px;
+}

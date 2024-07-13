@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Genso API Data Viewer",
+  "version": "1.0",
+  "description": "Displays Genso API response data in an easy-to-see format",
+  "permissions": ["activeTab"],
+  "host_permissions": ["https://api01.genso.game/*"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["style.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
