@@ -112,7 +112,24 @@ function displayData(data, resultElem, modal) {
   // if it's a modal add close button
   if (modal) {
     const closeButton = document.createElement("button");
-    closeButton.textContent = "Close";
+    closeButton.innerHTML = "&times;";
+    closeButton.style.cssText = `
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #a417fa;
+    color: white;
+    font-size: 23px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 2px 2px;
+  `;
     closeButton.onclick = () => document.body.removeChild(modal);
     resultElement.appendChild(closeButton);
   }
@@ -157,7 +174,37 @@ function displayData(data, resultElem, modal) {
         if (attr.trait_type === "parts type") {
           const elem = document.createElement("div");
           elem.classList.add("parts_type", "tag");
-          elem.innerText = attr.value;
+          let partsType = "";
+          switch (attr.value) {
+            case "head":
+              partsType = "頭";
+              break;
+            case "body":
+              partsType = "体";
+              break;
+            case "leg":
+              partsType = "足";
+              break;
+            case "r_hand":
+              partsType = "右手";
+              break;
+            case "l_hand":
+              partsType = "左手";
+              break;
+            case "shoulder":
+              partsType = "肩";
+              break;
+            case "back":
+              partsType = "背中";
+              break;
+            case "ring":
+              partsType = "リング";
+              break;
+            case "setup":
+              partsType = "セットアップ";
+              break;
+          }
+          elem.innerText = partsType;
           mainInfoTextElement.appendChild(elem);
         }
         // Rarity

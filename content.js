@@ -36,6 +36,7 @@ function showEquipmentList(transactionLogs) {
   listContainer.style.cssText = `
     max-height: 500px;
     overflow-y: auto;
+    margin-top: 35px;
   `;
 
   const title = document.createElement("h1");
@@ -49,7 +50,6 @@ function showEquipmentList(transactionLogs) {
   list.style.cssText = `
     list-style-type: none;
     padding: 0;
-    margin-top: 20px;
   `;
 
   transactionLogs.forEach(log => {
@@ -95,11 +95,28 @@ function createModal() {
     border-radius: 5px;
     max-width: 380px;
     max-height: 80%;
-    overflow-y: auto;
+    overflow: visible;
   `;
 
   const closeButton = document.createElement("button");
-  closeButton.textContent = "Close";
+  closeButton.innerHTML = "&times;";
+  closeButton.style.cssText = `
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #a417fa;
+    color: white;
+    font-size: 23px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 2px 2px;
+  `;
   closeButton.onclick = () => document.body.removeChild(modal);
   modalContent.appendChild(closeButton);
 
