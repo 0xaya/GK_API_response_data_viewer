@@ -38,10 +38,18 @@ function showEquipmentList(transactionLogs) {
     overflow-y: auto;
   `;
 
+  const title = document.createElement("h1");
+  title.textContent = "ステを見たい装備を選択してください";
+  title.style.cssText = `
+    position: absolute;
+    top:20px;
+    left: 40px; 
+  `;
   const list = document.createElement("ul");
   list.style.cssText = `
     list-style-type: none;
     padding: 0;
+    margin-top: 20px;
   `;
 
   transactionLogs.forEach(log => {
@@ -51,14 +59,16 @@ function showEquipmentList(transactionLogs) {
       padding: 10px;
       border-bottom: 1px solid #ccc;
     `;
-    const date = new Date(log.createdAt).toISOString().split("T")[0]; // Format as YYYY-MM-DD
-    item.textContent = `${log.name} Lv${log.extraMetadata.level} - ${date}`;
+    // const date = new Date(log.createdAt).toISOString().split("T")[0]; // Format as YYYY-MM-DD
+    const price = parseFloat(log.price);
+    item.innerHTML = `${log.name} Lv${log.extraMetadata.level} - <span class="text-purple">${price} ${log.currencyCode}</span>`;
     item.onclick = () => fetchData(log.tokenId);
     list.appendChild(item);
   });
 
   listContainer.appendChild(list);
   modal.querySelector("#modalContent").appendChild(listContainer);
+  modal.querySelector("#modalContent").appendChild(title);
   document.body.appendChild(modal);
 }
 

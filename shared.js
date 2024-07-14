@@ -197,14 +197,14 @@ function displayData(data, resultElem, modal) {
         if (visibleTraits[attr.trait_type] === "middle") {
           const displayName = reverseKeyMap[attr.trait_type] || attr.trait_type;
           let displayValue = attr.value !== null ? attr.value : "-";
-          attrHTML += `<div>${displayName}: <span class="attr_value">${displayValue}</span></div>`;
+          attrHTML += `<div>${displayName}: <span class="attr_value text-purple">${displayValue}</span></div>`;
         }
 
         // Resist attributes
         if (visibleTraits[attr.trait_type] === "middle_sub") {
           const displayName = reverseKeyMap[attr.trait_type] || attr.trait_type;
           let displayValue = attr.value !== null ? attr.value : "-";
-          attrSubHTML += `<div class="attr_resist">${displayName}: <span class="attr_value">${displayValue}</span></div>`;
+          attrSubHTML += `<div class="attr_resist">${displayName}: <span class="attr_value text-purple">${displayValue}</span></div>`;
         }
 
         // Other attributes

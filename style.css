@@ -21,6 +21,9 @@
   padding: 0;
 }
 
+.text-purple{
+  color: #a417fa;
+}
 #modalContent h1, 
 .itemid_form h1,
 #result h1
@@ -32,6 +35,10 @@
   width: 70%;
   padding: 5px;
   margin-right: 5px;
+}
+
+#modalContent {
+  position: relative;
 }
 
 #modalContent button,
@@ -121,7 +128,6 @@
 #result .attr_value 
 {
   font-weight: 500;
-  color: #a417fa;
 }
 
 #modalContent .attr_resist,
