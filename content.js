@@ -1,0 +1,102 @@
+function injectStyles() {
+  const link = document.createElement("link");
+  link.href = chrome.runtime.getURL("style.css");
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  (document.head || document.documentElement).appendChild(link);
+}
+
+// Call this function when your content script loads
+injectStyles();
+
+let modal;
+let transactionLogsData = null;
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.data && request.action === "storeTransactionLogsData") {
+    console.log("Received data:", request.data);
+    transactionLogsData = request.data;
+  } else if (request.action === "showModal") {
+    if (transactionLogsData) {
+      showEquipmentList(transactionLogsData.transactionLogs);
+    } else {
+      console.log("Transaction log data not available");
+    }
+  } else if (request.action === "displayData") {
+    console.log("request.action is displayData");
+    displayData(request.data, document.getElementById("modalContent"), modal);
+  } else if (request.action === "fetchError") {
+    alert(`Error fetching data: ${request.error}`);
+  }
+});
+
+function showEquipmentList(transactionLogs) {
+  modal = createModal();
+  const listContainer = document.createElement("div");
+  listContainer.style.cssText = `
+    max-height: 500px;
+    overflow-y: auto;
+  `;
+
+  const list = document.createElement("ul");
+  list.style.cssText = `
+    list-style-type: none;
+    padding: 0;
+  `;
+
+  transactionLogs.forEach(log => {
+    const item = document.createElement("li");
+    item.style.cssText = `
+      cursor: pointer;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    `;
+    const date = new Date(log.createdAt).toISOString().split("T")[0]; // Format as YYYY-MM-DD
+    item.textContent = `${log.name} Lv${log.extraMetadata.level} - ${date}`;
+    item.onclick = () => fetchData(log.tokenId);
+    list.appendChild(item);
+  });
+
+  listContainer.appendChild(list);
+  modal.querySelector("#modalContent").appendChild(listContainer);
+  document.body.appendChild(modal);
+}
+
+function createModal() {
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  `;
+
+  const modalContent = document.createElement("div");
+  modalContent.id = "modalContent";
+  modalContent.style.cssText = `
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 380px;
+    max-height: 80%;
+    overflow-y: auto;
+  `;
+
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "Close";
+  closeButton.onclick = () => document.body.removeChild(modal);
+  modalContent.appendChild(closeButton);
+
+  modal.appendChild(modalContent);
+  return modal;
+}
+
+function fetchData(itemId) {
+  chrome.runtime.sendMessage({ action: "fetchData", itemId: itemId });
+}

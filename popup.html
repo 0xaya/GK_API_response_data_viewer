@@ -9,24 +9,18 @@
       body {
         width: 400px;
         padding: 10px;
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      th,
-      td {
-        border: 1px solid black;
-        padding: 5px;
-        text-align: left;
+        font-family: sans-serif;
       }
     </style>
   </head>
   <body>
     <h1>元素騎士 装備APIレスポンス</h1>
-    <input type="text" id="itemId" placeholder="Enter item ID" />
-    <button id="fetchButton">データ取得</button>
+    <div class="itemid_form">
+      <input type="text" id="itemId" placeholder="Item IDを入力（例：100000000261144）" />
+      <button id="fetchButton">データ取得</button>
+    </div>
     <div id="result"></div>
+    <script src="shared.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

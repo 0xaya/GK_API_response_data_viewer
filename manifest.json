@@ -3,8 +3,19 @@
   "name": "Genso API Data Viewer",
   "version": "1.0",
   "description": "Displays Genso API response data in an easy-to-see format",
-  "permissions": ["activeTab"],
-  "host_permissions": ["https://api01.genso.game/*"],
+  "permissions": ["activeTab", "contextMenus", "webRequest"],
+  "host_permissions": [
+    "https://api01.genso.game/*",
+    "https://api-market.genso.game/*",
+    "https://market.genso.game/*marketplace/equipments/transaction-log*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://market.genso.game/*marketplace/equipments/transaction-log*"],
+      "js": ["shared.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "action": {
     "default_popup": "popup.html"
   },
@@ -13,5 +24,8 @@
       "resources": ["style.css"],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

@@ -1,47 +1,42 @@
-body {
-  font-family: Arial, sans-serif;
-  width: 400px;
-  padding: 20px;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 600;
+#modalContent h1,
+#modalContent h2,
+#modalContent h3,
+#modalContent h4,
+#modalContent h5,
+#modalContent h6,
+.itemid_form h1,
+.itemid_form h2,
+.itemid_form h3,
+.itemid_form h4,
+.itemid_form h5,
+.itemid_form h6,
+#result h1,
+#result h2,
+#result h3,
+#result h4,
+#result h5,
+#result h6
+{
   margin: 0;
   padding: 0;
 }
 
-h1 {
+#modalContent h1, 
+.itemid_form h1,
+#result h1
+{
   font-size: larger;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-input[type="text"] {
+.itemid_form input[type="text"] {
   width: 70%;
   padding: 5px;
   margin-right: 5px;
 }
 
-button {
+#modalContent button,
+.itemid_form button
+ {
   padding: 5px 10px;
 }
 
@@ -49,61 +44,101 @@ button {
   margin-top: 20px;
 }
 
-.equip_image {
+#modalContent .equip_image,
+#result .equip_image 
+{
   width: 100px;
   display: inline-block;
 }
 
-.main_info {
+#modalContent .main_info,
+#result .main_info 
+{
   display: flex;
   align-items: flex-start;
   gap: 10px;
 }
 
-.main_info__text {
+#modalContent .main_info__text,
+#result .main_info__text 
+{
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
-.tag {
+
+
+#modalContent .tag,
+#result .tag 
+{
   background: #ddd;
   border-radius: 8px;
   padding: 5px 10px;
   font-weight: bold;
 }
-.name {
+#modalContent .name,
+#result .name 
+{
   order: 1;
   width: 75%;
 }
-.numbering {
+
+#modalContent .numbering,
+#result .numbering 
+{
   order: 2;
   flex: 1;
   text-align: right;
   font-weight: bold;
   font-size: larger;
 }
-.rarity {
+
+#modalContent .rarity,
+#result .rarity 
+{
   order: 3;
 }
-.item_type {
+#modalContent .item_type,
+#result .item_type 
+{
   order: 4;
 }
-.parts_type {
+#modalContent .parts_type,
+#result .parts_type 
+{
   order: 5;
 }
 
-.attr_list {
+#modalContent .attr_list,
+#result .attr_list 
+{
   margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
 
-.attr_value {
-  font-weight: 600;
-  color: rgb(255, 49, 145);
+#modalContent .attr_value,
+#result .attr_value 
+{
+  font-weight: 500;
+  color: #a417fa;
 }
 
-.attr_resist {
+#modalContent .attr_resist,
+#result .attr_resist 
+{
   display: inline-block;
   margin-right: 10px;
+}
+
+#modalContent .grid_span2,
+#result .grid_span2 
+{
+  grid-column: span 2;
+}
+
+#modalContent .attr_semibold,
+#result .attr_semibold
+{
+  font-weight: 500;
 }
