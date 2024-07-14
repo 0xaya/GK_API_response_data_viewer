@@ -144,7 +144,7 @@ function displayData(data, resultElem, modal) {
   mainInfoTextElement.innerHTML = `<h1 class="name">${data.name}</h1>`;
 
   try {
-    console.log("Processing data:", JSON.stringify(data, null, 2));
+    // console.log("Processing data:", JSON.stringify(data, null, 2));
 
     if (!data || typeof data !== "object") {
       throw new Error("Invalid data format: data is not an object");

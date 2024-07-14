@@ -6,7 +6,9 @@ const resultElement = document.getElementById("result");
 
 function fetchData(itemId) {
   let url = "";
-  if (itemId < 1000000003450) {
+  const nftId = itemId.slice(0, 12);
+  console.log(nftId);
+  if (nftId < 1000000003450) {
     url = `https://api01.genso.game/api/metadata/${itemId}`;
   } else {
     url = `https://api01.genso.game/api/genso_v2_metadata/${itemId}`;

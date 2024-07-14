@@ -16,7 +16,9 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "fetchData") {
     let url = "";
-    if (request.itemId < 1000000003450) {
+    const nftId = request.itemId.slice(0, 12);
+    console.log(nftId);
+    if (nftId < 1000000003450) {
       url = `https://api01.genso.game/api/metadata/${request.itemId}`;
     } else {
       url = `https://api01.genso.game/api/genso_v2_metadata/${request.itemId}`;
