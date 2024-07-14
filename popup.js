@@ -5,24 +5,31 @@ document
 const resultElement = document.getElementById("result");
 
 function fetchData(itemId) {
-  let url = "";
   const nftId = itemId.slice(0, 12);
   console.log(nftId);
-  if (nftId < 1000000003450) {
-    url = `https://api01.genso.game/api/metadata/${itemId}`;
-  } else {
-    url = `https://api01.genso.game/api/genso_v2_metadata/${itemId}`;
-  }
 
-  fetch(url)
-    .then(response => {
+  const url1 = `https://api01.genso.game/api/metadata/${itemId}`;
+  const url2 = `https://api01.genso.game/api/genso_v2_metadata/${itemId}`;
+
+  // Start with the first URL based on the condition
+  let primaryUrl = nftId < 100000000408 ? url1 : url2;
+  let fallbackUrl = nftId < 100000000408 ? url2 : url1;
+
+  function tryFetch(url, fallback) {
+    return fetch(url).then(response => {
       if (!response.ok) {
+        if (response.status === 404 && fallback) {
+          console.log(`404 error on ${url}, trying fallback URL`);
+          return tryFetch(fallback, null);
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
-    })
+    });
+  }
+
+  tryFetch(primaryUrl, fallbackUrl)
     .then(data => {
-      // console.log("Fetched data:", JSON.stringify(data, null, 2));
       displayData(data, resultElement);
     })
     .catch(error => {

@@ -15,22 +15,30 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "fetchData") {
-    let url = "";
     const nftId = request.itemId.slice(0, 12);
     console.log(nftId);
-    if (nftId < 1000000003450) {
-      url = `https://api01.genso.game/api/metadata/${request.itemId}`;
-    } else {
-      url = `https://api01.genso.game/api/genso_v2_metadata/${request.itemId}`;
-    }
 
-    fetch(url)
-      .then(response => {
+    const url1 = `https://api01.genso.game/api/metadata/${request.itemId}`;
+    const url2 = `https://api01.genso.game/api/genso_v2_metadata/${request.itemId}`;
+
+    // Start with the first URL based on the condition
+    let primaryUrl = nftId < 100000000408 ? url1 : url2;
+    let fallbackUrl = nftId < 100000000408 ? url2 : url1;
+
+    function tryFetch(url, fallback) {
+      return fetch(url).then(response => {
         if (!response.ok) {
+          if (response.status === 404 && fallback) {
+            console.log(`404 error on ${url}, trying fallback URL`);
+            return tryFetch(fallback, null);
+          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
-      })
+      });
+    }
+
+    tryFetch(primaryUrl, fallbackUrl)
       .then(data => {
         chrome.tabs.sendMessage(sender.tab.id, { action: "displayData", data: data });
       })
