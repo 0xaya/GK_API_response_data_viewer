@@ -115,7 +115,7 @@ function createModal() {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 0 2px 2px;
+    padding: 0 0 4px 2px;
   `;
   closeButton.onclick = () => document.body.removeChild(modal);
   modalContent.appendChild(closeButton);
