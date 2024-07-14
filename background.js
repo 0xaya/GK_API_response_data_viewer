@@ -49,17 +49,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+let checkUrl = "";
+
 chrome.webRequest.onCompleted.addListener(
   function (details) {
-    fetch(details.url)
-      .then(response => response.json())
-      .then(data => {
-        // Process the response data
-        console.log("Response data:", data);
+    if (checkUrl !== details.url) {
+      checkUrl = details.url;
+      fetch(details.url)
+        .then(response => response.json())
+        .then(data => {
+          // Process the response data
+          console.log("Response data:", data);
 
-        // Send data to content script
-        chrome.tabs.sendMessage(details.tabId, { action: "storeTransactionLogsData", data: data });
-      });
+          // Send data to content script
+          chrome.tabs.sendMessage(details.tabId, { action: "storeTransactionLogsData", data: data });
+        });
+    }
   },
   { urls: ["https://api-market.genso.game/api/transactionLogs/equipment*"] }
 );
