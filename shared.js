@@ -229,6 +229,13 @@ function displayData(data, resultElem, modal) {
           elem.innerText = rarity;
           mainInfoTextElement.appendChild(elem);
         }
+        // Level
+        if (attr.trait_type === "level") {
+          const elem = document.createElement("div");
+          elem.classList.add("level", "tag");
+          elem.innerText = "Lv" + attr.value;
+          mainInfoTextElement.appendChild(elem);
+        }
 
         // Numbering
         if (attr.trait_type === "numbering") {

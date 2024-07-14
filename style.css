@@ -48,6 +48,22 @@
   padding: 5px 10px;
 }
 
+#modalContent li {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+}
+#modalContent li div, #modalContent li div span{
+  font-size: 90%;
+  text-wrap: nowrap;
+}
+#modalContent li img {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
 #result {
   margin-top: 20px;
 }
@@ -83,7 +99,9 @@
   border-radius: 8px;
   padding: 5px 10px;
   font-weight: bold;
+  font-size: 80%;
 }
+
 #modalContent .name,
 #result .name 
 {
@@ -115,6 +133,11 @@
 #result .parts_type 
 {
   order: 5;
+}
+#modalContent .level,
+#result .level 
+{
+  order: 6;
 }
 
 #modalContent .attr_list,

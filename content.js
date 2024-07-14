@@ -44,7 +44,7 @@ function showEquipmentList(transactionLogs) {
   title.style.cssText = `
     position: absolute;
     top:20px;
-    left: 40px; 
+    left: 28px; 
   `;
   const list = document.createElement("ul");
   list.style.cssText = `
@@ -54,14 +54,15 @@ function showEquipmentList(transactionLogs) {
 
   transactionLogs.forEach(log => {
     const item = document.createElement("li");
-    item.style.cssText = `
-      cursor: pointer;
-      padding: 10px;
-      border-bottom: 1px solid #ccc;
-    `;
+
     // const date = new Date(log.createdAt).toISOString().split("T")[0]; // Format as YYYY-MM-DD
     const price = parseFloat(log.price);
-    item.innerHTML = `${log.name} Lv${log.extraMetadata.level} - <span class="text-purple">${price} ${log.currencyCode}</span>`;
+    item.innerHTML = `
+      <div><img src="${log.image}" /></div>
+      <div>${log.name} ${
+      log.extraMetadata.level ? "Lv" + log.extraMetadata.level : ""
+    } <br><span class="text-purple">${price} ${log.currencyCode}</span></div>
+    `;
     item.onclick = () => fetchData(log.tokenId);
     list.appendChild(item);
   });
@@ -93,7 +94,8 @@ function createModal() {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
-    max-width: 380px;
+    min-width: 350px;
+    max-width: 400px;
     max-height: 80%;
     overflow: visible;
   `;
