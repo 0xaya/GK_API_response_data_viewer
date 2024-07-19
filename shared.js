@@ -104,7 +104,7 @@ const keyMap = {
 
 const reverseKeyMap = Object.fromEntries(Object.entries(keyMap).map(([key, value]) => [value, key]));
 
-function displayData(data, resultElem, modal) {
+function displayData(data, resultElem, modal, priceSold, timeSold) {
   const resultElement = resultElem;
   // empty content
   resultElement.innerHTML = "";
@@ -142,6 +142,14 @@ function displayData(data, resultElem, modal) {
   const mainInfoTextElement = document.createElement("div");
   mainInfoTextElement.classList.add("main_info__text");
   mainInfoTextElement.innerHTML = `<h1 class="name">${data.name}</h1>`;
+
+  // Sales info
+  if (priceSold && timeSold) {
+    const elem = document.createElement("div");
+    elem.classList.add("sales_info");
+    elem.innerHTML = `<span class="font-purple font-smaller">${priceSold}</span> <span class="font-smaller">${timeSold}</span>`;
+    mainInfoTextElement.appendChild(elem);
+  }
 
   try {
     // console.log("Processing data:", JSON.stringify(data, null, 2));
@@ -251,14 +259,14 @@ function displayData(data, resultElem, modal) {
         if (visibleTraits[attr.trait_type] === "middle") {
           const displayName = reverseKeyMap[attr.trait_type] || attr.trait_type;
           let displayValue = attr.value !== null ? attr.value : "-";
-          attrHTML += `<div>${displayName}: <span class="attr_value text-purple">${displayValue}</span></div>`;
+          attrHTML += `<div>${displayName}: <span class="attr_value font-purple">${displayValue}</span></div>`;
         }
 
         // Resist attributes
         if (visibleTraits[attr.trait_type] === "middle_sub") {
           const displayName = reverseKeyMap[attr.trait_type] || attr.trait_type;
           let displayValue = attr.value !== null ? attr.value : "-";
-          attrSubHTML += `<div class="attr_resist">${displayName}: <span class="attr_value text-purple">${displayValue}</span></div>`;
+          attrSubHTML += `<div class="attr_resist">${displayName}: <span class="attr_value font-purple">${displayValue}</span></div>`;
         }
 
         // Other attributes
@@ -290,4 +298,22 @@ function displayData(data, resultElem, modal) {
     console.error("Error in displayData:", error);
     resultElement.textContent = `Error processing data: ${error.message}`;
   }
+}
+
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const ampm = hours >= 12 ? "pm" : "am";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = String(hours).padStart(2, "0");
+
+  return `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
 }

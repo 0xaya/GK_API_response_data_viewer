@@ -11,6 +11,8 @@ injectStyles();
 
 let modal;
 let transactionLogsData = null;
+let priceSold = "";
+let timeSold = "";
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.data && request.action === "storeTransactionLogsData") {
@@ -21,10 +23,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       showEquipmentList(transactionLogsData.transactionLogs);
     } else {
       console.log("Transaction log data not available");
+      showError("トランザクションログデータが取得できませんでした");
     }
   } else if (request.action === "displayData") {
     console.log("request.action is displayData");
-    displayData(request.data, document.getElementById("modalContent"), modal);
+    displayData(request.data, document.getElementById("modalContent"), modal, priceSold, timeSold);
   } else if (request.action === "fetchError") {
     alert(`Error fetching data: ${request.error}`);
   }
@@ -56,14 +59,15 @@ function showEquipmentList(transactionLogs) {
     const item = document.createElement("li");
 
     // const date = new Date(log.createdAt).toISOString().split("T")[0]; // Format as YYYY-MM-DD
-    const price = parseFloat(log.price);
+    const price = parseFloat(log.price) + " " + log.currencyCode;
+    const time = formatTimestamp(log.timestamp * 1000);
     item.innerHTML = `
       <div><img src="${log.image}" /></div>
       <div>${log.name} ${
       log.extraMetadata.level ? "Lv" + log.extraMetadata.level : ""
-    } <br><span class="text-purple">${price} ${log.currencyCode}</span></div>
+    } <br><span class="font-purple font-smaller">${price}</span><span class="font-smaller"> ${time}</span></div>
     `;
-    item.onclick = () => fetchData(log.tokenId);
+    item.onclick = () => fetchData(log.tokenId, price, time);
     list.appendChild(item);
   });
 
@@ -74,6 +78,8 @@ function showEquipmentList(transactionLogs) {
 }
 
 function createModal() {
+  priceSold = "";
+  timeSold = "";
   const modal = document.createElement("div");
   modal.style.cssText = `
     position: fixed;
@@ -126,6 +132,26 @@ function createModal() {
   return modal;
 }
 
-function fetchData(itemId) {
+function showError(errorMessage) {
+  modal = createModal();
+  const errorElem = document.createElement("div");
+  errorElem.innerText = errorMessage;
+  const closeButton = document.createElement("button");
+  closeButton.innerText = "閉じる";
+  closeButton.style.cssText = `
+    left: 50%;
+    position: relative;
+    margin-top: 10px;
+    transform: translateX(-50%);
+  `;
+  closeButton.onclick = () => document.body.removeChild(modal);
+  modal.querySelector("#modalContent").appendChild(errorElem);
+  modal.querySelector("#modalContent").appendChild(closeButton);
+  document.body.appendChild(modal);
+}
+
+function fetchData(itemId, price, time) {
+  priceSold = price;
+  timeSold = time;
   chrome.runtime.sendMessage({ action: "fetchData", itemId: itemId });
 }
