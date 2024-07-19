@@ -21,8 +21,11 @@
   padding: 0;
 }
 
-.text-purple{
+.font-purple {
   color: #a417fa;
+}
+.font-smaller {
+  font-size: smaller;
 }
 #modalContent h1, 
 .itemid_form h1,
@@ -46,6 +49,9 @@
 .itemid_form button
  {
   padding: 5px 10px;
+  padding: 5px 10px;
+  background: #dedede;
+  border-radius: 4px;
 }
 
 #modalContent li {
@@ -55,7 +61,6 @@
   display: flex;
 }
 #modalContent li div, #modalContent li div span{
-  font-size: 90%;
   text-wrap: nowrap;
 }
 #modalContent li img {
@@ -72,6 +77,7 @@
 #result .equip_image 
 {
   width: 100px;
+  max-width: unset !important;
   display: inline-block;
 }
 
@@ -88,7 +94,7 @@
 {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
 }
 
 
@@ -97,7 +103,7 @@
 {
   background: #ddd;
   border-radius: 8px;
-  padding: 5px 10px;
+  padding: 4px 10px;
   font-weight: bold;
   font-size: 80%;
 }
@@ -138,6 +144,12 @@
 #result .level 
 {
   order: 6;
+}
+
+#modalContent .sales_info,
+#result .sales_info 
+{
+  order: 7;
 }
 
 #modalContent .attr_list,
