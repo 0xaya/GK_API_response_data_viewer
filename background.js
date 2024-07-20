@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     tryFetch(primaryUrl, fallbackUrl)
       .then(data => {
-        chrome.tabs.sendMessage(sender.tab.id, { action: "displayData", data: data });
+        chrome.tabs.sendMessage(sender.tab.id, { action: "displayData", data: { ...data, itemId: request.itemId } });
       })
       .catch(error => {
         console.error("Fetch error:", error);

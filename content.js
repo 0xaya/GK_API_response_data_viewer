@@ -23,7 +23,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       showEquipmentList(transactionLogsData.transactionLogs);
     } else {
       console.log("Transaction log data not available");
-      showError("トランザクションログデータが取得できませんでした");
+      showError(
+        "トランザクションログデータが取得できませんでした。ページを再読み込みし、リストが完全に表示されてからクリックしてください。"
+      );
     }
   } else if (request.action === "displayData") {
     console.log("request.action is displayData");
@@ -63,9 +65,10 @@ function showEquipmentList(transactionLogs) {
     const time = formatTimestamp(log.timestamp * 1000);
     item.innerHTML = `
       <div><img src="${log.image}" /></div>
-      <div>${log.name} ${
-      log.extraMetadata.level ? "Lv" + log.extraMetadata.level : ""
-    } <br><span class="font-purple font-smaller">${price}</span><span class="font-smaller"> ${time}</span></div>
+      <div style="line-height: 1.1">${log.name} ${log.extraMetadata.level ? "Lv" + log.extraMetadata.level : ""} <br>
+      <span class="font-xsmall">${log.tokenId}</span><br>
+      <span class="font-purple font-xsmall">${price}</span><span class="font-xsmall"> ${time}</span>
+      </div>
     `;
     item.onclick = () => fetchData(log.tokenId, price, time);
     list.appendChild(item);
@@ -101,7 +104,7 @@ function createModal() {
     padding: 20px;
     border-radius: 5px;
     min-width: 350px;
-    max-width: 400px;
+    max-width: 500px;
     max-height: 80%;
     overflow: visible;
   `;
