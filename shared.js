@@ -141,7 +141,7 @@ function displayData(data, resultElem, modal, priceSold, timeSold) {
   mainInfoContainer.appendChild(imageElement);
   const mainInfoTextElement = document.createElement("div");
   mainInfoTextElement.classList.add("main_info__text");
-  mainInfoTextElement.innerHTML = `<h1 class="name">${data.name}</h1>`;
+  mainInfoTextElement.innerHTML = `<h1 class="name">${data.name}</h1><span class="item_id font-xsmall">${data.itemId}</span>`;
 
   // Sales info
   if (priceSold && timeSold) {

@@ -30,7 +30,7 @@ function fetchData(itemId) {
 
   tryFetch(primaryUrl, fallbackUrl)
     .then(data => {
-      displayData(data, resultElement);
+      displayData({ itemId: itemId, ...data }, resultElement);
     })
     .catch(error => {
       console.error("Fetch error:", error);
@@ -41,10 +41,4 @@ function fetchData(itemId) {
 // Log any unhandled errors
 window.addEventListener("error", function (event) {
   console.error("Unhandled error:", event.error);
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "showPopup") {
-    displayData(request.data);
-  }
 });

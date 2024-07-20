@@ -27,6 +27,10 @@
 .font-smaller {
   font-size: smaller;
 }
+.font-xsmall {
+  font-size: x-small;
+
+}
 #modalContent h1, 
 .itemid_form h1,
 #result h1
@@ -64,8 +68,8 @@
   text-wrap: nowrap;
 }
 #modalContent li img {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: auto;
   margin-right: 10px;
 }
 
@@ -125,31 +129,38 @@
   font-size: larger;
 }
 
+#modalContent .item_id,
+#result .item_id 
+{
+  order: 3;
+  width: 100%;
+}
+
 #modalContent .rarity,
 #result .rarity 
 {
-  order: 3;
+  order: 4;
 }
 #modalContent .item_type,
 #result .item_type 
 {
-  order: 4;
+  order: 5;
 }
 #modalContent .parts_type,
 #result .parts_type 
 {
-  order: 5;
+  order: 6;
 }
 #modalContent .level,
 #result .level 
 {
-  order: 6;
+  order: 7;
 }
 
 #modalContent .sales_info,
 #result .sales_info 
 {
-  order: 7;
+  order: 8;
 }
 
 #modalContent .attr_list,
