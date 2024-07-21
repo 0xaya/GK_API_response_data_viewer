@@ -45,7 +45,7 @@
   margin-right: 5px;
 }
 
-#modalContent {
+#modalContainer {
   position: relative;
 }
 
@@ -58,15 +58,50 @@
   border-radius: 4px;
 }
 
+#modalContent .dli-chevron-round-left {
+  display: inline-block;
+  vertical-align: middle;
+  color: inherit;
+  line-height: 1;
+  position: relative;
+  width: 0.5em;
+  height: 0.5em;
+  transform: translateX(25%) rotate(-135deg);
+  margin-right: 5px;
+}
+
+.dli-chevron-round-left::before, .dli-chevron-round-left::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  border-radius: 0.1em;
+}
+
+.dli-chevron-round-left::before {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.1em;
+}
+
+.dli-chevron-round-left::after {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0.1em;
+}
+
 #modalContent li {
   cursor: pointer;
   padding: 10px;
   border-bottom: 1px solid #ccc;
   display: flex;
 }
+
 #modalContent li div, #modalContent li div span{
   text-wrap: nowrap;
 }
+
 #modalContent li img {
   width: 45px;
   height: auto;
