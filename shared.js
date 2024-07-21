@@ -104,34 +104,23 @@ const keyMap = {
 
 const reverseKeyMap = Object.fromEntries(Object.entries(keyMap).map(([key, value]) => [value, key]));
 
-function displayData(data, resultElem, modal, priceSold, timeSold) {
+function displayData(data, resultElem, modal, priceSold, timeSold, equipmentList) {
   const resultElement = resultElem;
   // empty content
   resultElement.innerHTML = "";
 
   // if it's a modal add close button
-  if (modal) {
-    const closeButton = document.createElement("button");
-    closeButton.innerHTML = "&times;";
-    closeButton.style.cssText = `
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #a417fa;
-    color: white;
-    font-size: 23px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 0 4px 2px;
-  `;
-    closeButton.onclick = () => document.body.removeChild(modal);
-    resultElement.appendChild(closeButton);
+  if (modal && equipmentList) {
+    console.log(equipmentList);
+    const backToListButton = document.createElement("div");
+    backToListButton.classList.add("font-purple");
+    backToListButton.style.cssText = `margin-bottom: 10px; cursor: pointer;`;
+    backToListButton.innerHTML = `<span class="dli-chevron-round-left"></span>リストに戻る`;
+    backToListButton.addEventListener("click", () => {
+      resultElement.innerHTML = "";
+      resultElement.appendChild(equipmentList);
+    });
+    modal.querySelector("#modalContent").appendChild(backToListButton);
   }
 
   const mainInfoContainer = document.createElement("div");

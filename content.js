@@ -11,6 +11,7 @@ injectStyles();
 
 let modal;
 let transactionLogsData = null;
+let equipmentList;
 let priceSold = "";
 let timeSold = "";
 
@@ -28,15 +29,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       );
     }
   } else if (request.action === "displayData") {
-    console.log("request.action is displayData");
-    displayData(request.data, document.getElementById("modalContent"), modal, priceSold, timeSold);
+    modal.querySelector("#modalContent").innerHTML = "";
+    displayData(request.data, document.getElementById("modalContent"), modal, priceSold, timeSold, equipmentList);
   } else if (request.action === "fetchError") {
     alert(`Error fetching data: ${request.error}`);
   }
 });
 
 function showEquipmentList(transactionLogs) {
-  modal = createModal();
+  if (!modal) {
+    modal = createModal();
+  }
+  modal.querySelector("#modalContent").innerHTML = "";
+
   const listContainer = document.createElement("div");
   listContainer.style.cssText = `
     max-height: 500px;
@@ -75,16 +80,17 @@ function showEquipmentList(transactionLogs) {
   });
 
   listContainer.appendChild(list);
+  listContainer.appendChild(title);
   modal.querySelector("#modalContent").appendChild(listContainer);
-  modal.querySelector("#modalContent").appendChild(title);
+  equipmentList = listContainer;
   document.body.appendChild(modal);
 }
 
 function createModal() {
   priceSold = "";
   timeSold = "";
-  const modal = document.createElement("div");
-  modal.style.cssText = `
+  const modalElem = document.createElement("div");
+  modalElem.style.cssText = `
     position: fixed;
     top: 0;
     left: 0;
@@ -97,9 +103,9 @@ function createModal() {
     z-index: 9999;
   `;
 
-  const modalContent = document.createElement("div");
-  modalContent.id = "modalContent";
-  modalContent.style.cssText = `
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "modalContainer";
+  modalContainer.style.cssText = `
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -128,15 +134,22 @@ function createModal() {
     align-items: center;
     padding: 0 0 4px 2px;
   `;
-  closeButton.onclick = () => document.body.removeChild(modal);
-  modalContent.appendChild(closeButton);
+  closeButton.addEventListener("click", () => document.body.removeChild(modal));
+  modalContainer.appendChild(closeButton);
 
-  modal.appendChild(modalContent);
-  return modal;
+  const modalContent = document.createElement("div");
+  modalContent.id = "modalContent";
+  modalContainer.appendChild(modalContent);
+
+  modalElem.appendChild(modalContainer);
+  return modalElem;
 }
 
 function showError(errorMessage) {
-  modal = createModal();
+  if (!modal) {
+    modal = createModal();
+  }
+  modal.querySelector("#modalContent").innerHTML = "";
   const errorElem = document.createElement("div");
   errorElem.innerText = errorMessage;
   const closeButton = document.createElement("button");
