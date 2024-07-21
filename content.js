@@ -66,7 +66,7 @@ function showEquipmentList(transactionLogs) {
     item.innerHTML = `
       <div><img src="${log.image}" /></div>
       <div style="line-height: 1.1">${log.name} ${log.extraMetadata.level ? "Lv" + log.extraMetadata.level : ""} <br>
-      <span class="font-xsmall">${log.tokenId}</span><br>
+      <span class="item_id font-xsmall">${log.tokenId}</span><br>
       <span class="font-purple font-xsmall">${price}</span><span class="font-xsmall"> ${time}</span>
       </div>
     `;

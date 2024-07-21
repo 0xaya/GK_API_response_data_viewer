@@ -132,6 +132,11 @@
 #modalContent .item_id,
 #result .item_id 
 {
+  opacity: 0.7;
+}
+#modalContent .main_info .item_id,
+#result .main_info .item_id 
+{
   order: 3;
   width: 100%;
 }
