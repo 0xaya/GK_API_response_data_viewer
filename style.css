@@ -115,7 +115,7 @@
 #modalContent .equip_image,
 #result .equip_image 
 {
-  width: 100px;
+  width: 120px;
   max-width: unset !important;
   display: inline-block;
 }
@@ -134,6 +134,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin-top: -4px;
 }
 
 
@@ -169,8 +170,16 @@
 {
   opacity: 0.7;
 }
+
 #modalContent .main_info .item_id,
 #result .main_info .item_id 
+{
+  order: 3;
+  width: 100%;
+}
+
+#modalContent .main_info .job,
+#result .main_info .job 
 {
   order: 3;
   width: 100%;
