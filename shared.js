@@ -348,7 +348,7 @@ function createModal() {
     align-items: center;
     padding: 0 0 4px 2px;
   `;
-  closeButton.addEventListener("click", () => document.body.removeChild(modal));
+  closeButton.addEventListener("click", () => document.body.removeChild(modalElem));
   modalContainer.appendChild(closeButton);
 
   const modalContent = document.createElement("div");
