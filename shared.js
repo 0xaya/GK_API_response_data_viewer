@@ -111,7 +111,6 @@ function displayData(data, resultElem, modal, priceSold, timeSold, equipmentList
 
   // if it's a modal add close button
   if (modal && equipmentList) {
-    console.log(equipmentList);
     const backToListButton = document.createElement("div");
     backToListButton.classList.add("font-purple");
     backToListButton.style.cssText = `margin-bottom: 10px; cursor: pointer;`;
@@ -243,6 +242,18 @@ function displayData(data, resultElem, modal, priceSold, timeSold, equipmentList
         }
 
         mainInfoContainer.appendChild(mainInfoTextElement);
+
+        // Job Classes
+        if (attr.trait_type === "job") {
+          const elem = document.createElement("div");
+          elem.classList.add("job", "font-smaller");
+          if (attr.value && attr.value !== null && attr.value !== "ALL") {
+            let jobs = attr.value.replace(/\|/g, " ");
+            jobs = toTitleCase(jobs);
+            elem.innerText = jobs;
+          }
+          mainInfoTextElement.appendChild(elem);
+        }
 
         // Main attributes
         if (visibleTraits[attr.trait_type] === "middle") {
@@ -386,4 +397,8 @@ function formatTimestamp(timestamp) {
   hours = String(hours).padStart(2, "0");
 
   return `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
+}
+
+function toTitleCase(str) {
+  return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 }
