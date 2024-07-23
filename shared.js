@@ -289,6 +289,87 @@ function displayData(data, resultElem, modal, priceSold, timeSold, equipmentList
   }
 }
 
+function createModal() {
+  priceSold = "";
+  timeSold = "";
+  const modalElem = document.createElement("div");
+  modalElem.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  `;
+
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "modalContainer";
+  modalContainer.style.cssText = `
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    min-width: 350px;
+    max-width: 500px;
+    max-height: 80%;
+    overflow: visible;
+  `;
+
+  const closeButton = document.createElement("button");
+  closeButton.innerHTML = "&times;";
+  closeButton.style.cssText = `
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #a417fa;
+    color: white;
+    font-size: 23px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 4px 2px;
+  `;
+  closeButton.addEventListener("click", () => document.body.removeChild(modal));
+  modalContainer.appendChild(closeButton);
+
+  const modalContent = document.createElement("div");
+  modalContent.id = "modalContent";
+  modalContainer.appendChild(modalContent);
+
+  modalElem.appendChild(modalContainer);
+  return modalElem;
+}
+
+function showError(errorMessage, modal) {
+  if (!modal) {
+    modal = createModal();
+  }
+  modal.querySelector("#modalContent").innerHTML = "";
+  const errorElem = document.createElement("div");
+  errorElem.innerText = errorMessage;
+  const closeButton = document.createElement("button");
+  closeButton.innerText = "閉じる";
+  closeButton.style.cssText = `
+    left: 50%;
+    position: relative;
+    margin-top: 10px;
+    transform: translateX(-50%);
+  `;
+  closeButton.onclick = () => document.body.removeChild(modal);
+  modal.querySelector("#modalContent").appendChild(errorElem);
+  modal.querySelector("#modalContent").appendChild(closeButton);
+  document.body.appendChild(modal);
+}
+
+
 function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
 

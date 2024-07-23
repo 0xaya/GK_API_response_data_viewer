@@ -62,7 +62,9 @@ chrome.webRequest.onCompleted.addListener(
           console.log("Response data:", data);
 
           // Send data to content script
-          chrome.tabs.sendMessage(details.tabId, { action: "storeTransactionLogsData", data: data });
+          chrome.tabs.sendMessage(details.tabId, { action: "storeTransactionLogsData", data: data }).catch(error => {
+            showError(error);
+          });
         });
     }
   },
