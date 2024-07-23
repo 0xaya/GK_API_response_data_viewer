@@ -50,6 +50,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 let checkUrl = "";
+let activeTabId = null;
 
 chrome.webRequest.onCompleted.addListener(
   function (details) {
@@ -60,9 +61,8 @@ chrome.webRequest.onCompleted.addListener(
         .then(data => {
           // Process the response data
           console.log("Response data:", data);
-
           // Send data to content script
-          chrome.tabs.sendMessage(details.tabId, { action: "storeTransactionLogsData", data: data }).catch(error => {
+          chrome.tabs.sendMessage(activeTabId, { action: "storeTransactionLogsData", data: data }).catch(error => {
             showError(error);
           });
         });
@@ -70,3 +70,27 @@ chrome.webRequest.onCompleted.addListener(
   },
   { urls: ["https://api-market.genso.game/api/transactionLogs/equipment*"] }
 );
+
+// Listen for tab activation
+chrome.tabs.onActivated.addListener(activeInfo => {
+  chrome.tabs.get(activeInfo.tabId, tab => {
+    if (isTargetUrl(tab.url)) {
+      activeTabId = activeInfo.tabId;
+    } else {
+      activeTabId = null;
+    }
+  });
+});
+
+// Listen for tab updates
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (tabId === activeTabId && changeInfo.status === "loading" && isTargetUrl(tab.url)) {
+    checkUrl = "";
+  }
+});
+
+// Function to check if the URL matches your target
+function isTargetUrl(url) {
+  const targetPattern = /^https:\/\/market\.genso\.game\/.*marketplace\/equipments\/transaction-log/;
+  return url && targetPattern.test(url);
+}
