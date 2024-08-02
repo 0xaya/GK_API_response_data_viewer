@@ -112,8 +112,8 @@ function displayData(data, resultElem, modal, priceSold, timeSold, equipmentList
   // if it's a modal add close button
   if (modal && equipmentList) {
     const backToListButton = document.createElement("div");
-    backToListButton.classList.add("font-purple");
-    backToListButton.style.cssText = `margin-bottom: 10px; cursor: pointer;`;
+    backToListButton.classList.add("font-purple", "font-larger");
+    backToListButton.style.cssText = `margin-bottom: 20px; cursor: pointer;`;
     backToListButton.innerHTML = `<span class="dli-chevron-round-left"></span>リストに戻る`;
     backToListButton.addEventListener("click", () => {
       resultElement.innerHTML = "";
@@ -325,12 +325,11 @@ function createModal() {
     border-radius: 5px;
     min-width: 350px;
     max-width: 500px;
-    max-height: 80%;
     overflow: visible;
   `;
 
   const closeButton = document.createElement("button");
-  closeButton.innerHTML = "&times;";
+  closeButton.innerHTML = `<div style="height: 100%;font-size: large;">&times;</div>`;
   closeButton.style.cssText = `
     position: absolute;
     top: -15px;
@@ -346,7 +345,6 @@ function createModal() {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 0 4px 2px;
   `;
   closeButton.addEventListener("click", () => document.body.removeChild(modalElem));
   modalContainer.appendChild(closeButton);

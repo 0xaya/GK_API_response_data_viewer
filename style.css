@@ -24,6 +24,9 @@
 .font-purple {
   color: #a417fa;
 }
+.font-larger {
+  font-size: larger;
+}
 .font-smaller {
   font-size: smaller;
 }
