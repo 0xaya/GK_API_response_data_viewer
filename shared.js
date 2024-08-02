@@ -329,7 +329,7 @@ function createModal() {
   `;
 
   const closeButton = document.createElement("button");
-  closeButton.innerHTML = `<div style="height: 100%;font-size: large;">&times;</div>`;
+  closeButton.innerHTML = `<div style="height: 100%;font-size: large; color: #fff;">&times;</div>`;
   closeButton.style.cssText = `
     position: absolute;
     top: -15px;
