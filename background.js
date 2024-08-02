@@ -7,16 +7,19 @@ chrome.contextMenus.create({
   documentUrlPatterns: ["https://market.genso.game/*marketplace/equipments/transaction-log*"],
 });
 
+let activeTabId = null;
+
 chrome.contextMenus.onClicked.addListener((info, tab) => {
+  activeTabId = tab.id;
   if (info.menuItemId === "checkEquipmentStats") {
-    chrome.tabs.sendMessage(tab.id, { action: "showModal" });
+    chrome.tabs.sendMessage(activeTabId, { action: "showModal" });
   }
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "fetchData") {
     const nftId = request.itemId.slice(0, 12);
-    console.log(nftId);
+    // console.log(nftId);
 
     const url1 = `https://api01.genso.game/api/metadata/${request.itemId}`;
     const url2 = `https://api01.genso.game/api/genso_v2_metadata/${request.itemId}`;
@@ -50,7 +53,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 let checkUrl = "";
-let activeTabId = null;
 
 chrome.webRequest.onCompleted.addListener(
   function (details) {
@@ -60,24 +62,27 @@ chrome.webRequest.onCompleted.addListener(
         .then(response => response.json())
         .then(data => {
           // Process the response data
-          console.log("Response data:", data);
+          // console.log("Response data:", data);
           // Send data to content script
           chrome.tabs.sendMessage(activeTabId, { action: "storeTransactionLogsData", data: data }).catch(error => {
-            showError(error);
+            // showError(error);
+            console.log(error);
           });
+        })
+        .catch(error => {
+          console.log(error);
         });
     }
   },
-  { urls: ["https://api-market.genso.game/api/transactionLogs/equipment*"] }
+  { urls: ["https://api-market.genso.game/api/transactionLogs/equipment?*"] }
 );
 
 // Listen for tab activation
 chrome.tabs.onActivated.addListener(activeInfo => {
   chrome.tabs.get(activeInfo.tabId, tab => {
-    if (isTargetUrl(tab.url)) {
+    if (isTargetUrl("onActivated", tab.url)) {
       activeTabId = activeInfo.tabId;
-    } else {
-      activeTabId = null;
+      console.log("tabId", activeTabId);
     }
   });
 });
@@ -86,11 +91,13 @@ chrome.tabs.onActivated.addListener(activeInfo => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tabId === activeTabId && changeInfo.status === "loading" && isTargetUrl(tab.url)) {
     checkUrl = "";
+  } else if (isTargetUrl(tab.url)) {
+    activeTabId = tabId;
   }
 });
 
 // Function to check if the URL matches your target
 function isTargetUrl(url) {
-  const targetPattern = /^https:\/\/market\.genso\.game\/.*marketplace\/equipments\/transaction-log/;
+  const targetPattern = /^https:\/\/market\.genso\.game\/*/;
   return url && targetPattern.test(url);
 }

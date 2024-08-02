@@ -11,7 +11,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://market.genso.game/*marketplace/equipments/transaction-log*"],
+      "matches": ["https://market.genso.game/*"],
       "js": ["shared.js", "content.js"],
       "run_at": "document_end"
     }
