@@ -7,9 +7,11 @@ chrome.contextMenus.create({
   documentUrlPatterns: ["https://market.genso.game/*marketplace/equipments/transaction-log*"],
 });
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+let activeTabId = null;
+
+chrome.contextMenus.onClicked.addListener(info => {
   if (info.menuItemId === "checkEquipmentStats") {
-    chrome.tabs.sendMessage(tab.id, { action: "showModal" });
+    chrome.tabs.sendMessage(activeTabId, { action: "showModal" });
   }
 });
 
@@ -50,12 +52,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 let checkUrl = "";
-let activeTabId = null;
 
 chrome.webRequest.onCompleted.addListener(
   function (details) {
     if (checkUrl !== details.url) {
       checkUrl = details.url;
+      console.log(details.url);
       fetch(details.url)
         .then(response => response.json())
         .then(data => {
@@ -63,12 +65,16 @@ chrome.webRequest.onCompleted.addListener(
           console.log("Response data:", data);
           // Send data to content script
           chrome.tabs.sendMessage(activeTabId, { action: "storeTransactionLogsData", data: data }).catch(error => {
-            showError(error);
+            // showError(error);
+            console.log(error);
           });
+        })
+        .catch(error => {
+          console.log(error);
         });
     }
   },
-  { urls: ["https://api-market.genso.game/api/transactionLogs/equipment*"] }
+  { urls: ["https://api-market.genso.game/api/transactionLogs/equipment?*"] }
 );
 
 // Listen for tab activation
@@ -76,8 +82,10 @@ chrome.tabs.onActivated.addListener(activeInfo => {
   chrome.tabs.get(activeInfo.tabId, tab => {
     if (isTargetUrl(tab.url)) {
       activeTabId = activeInfo.tabId;
+      console.log("tabId", activeTabId);
     } else {
       activeTabId = null;
+      console.log("tabId", "null!");
     }
   });
 });
@@ -91,6 +99,6 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 // Function to check if the URL matches your target
 function isTargetUrl(url) {
-  const targetPattern = /^https:\/\/market\.genso\.game\/.*marketplace\/equipments\/transaction-log/;
+  const targetPattern = /^https:\/\/market\.genso\.game\/*/;
   return url && targetPattern.test(url);
 }
