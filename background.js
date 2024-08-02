@@ -9,7 +9,8 @@ chrome.contextMenus.create({
 
 let activeTabId = null;
 
-chrome.contextMenus.onClicked.addListener(info => {
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  activeTabId = tab.id;
   if (info.menuItemId === "checkEquipmentStats") {
     chrome.tabs.sendMessage(activeTabId, { action: "showModal" });
   }
@@ -18,7 +19,7 @@ chrome.contextMenus.onClicked.addListener(info => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "fetchData") {
     const nftId = request.itemId.slice(0, 12);
-    console.log(nftId);
+    // console.log(nftId);
 
     const url1 = `https://api01.genso.game/api/metadata/${request.itemId}`;
     const url2 = `https://api01.genso.game/api/genso_v2_metadata/${request.itemId}`;
@@ -57,12 +58,11 @@ chrome.webRequest.onCompleted.addListener(
   function (details) {
     if (checkUrl !== details.url) {
       checkUrl = details.url;
-      console.log(details.url);
       fetch(details.url)
         .then(response => response.json())
         .then(data => {
           // Process the response data
-          console.log("Response data:", data);
+          // console.log("Response data:", data);
           // Send data to content script
           chrome.tabs.sendMessage(activeTabId, { action: "storeTransactionLogsData", data: data }).catch(error => {
             // showError(error);
@@ -80,12 +80,9 @@ chrome.webRequest.onCompleted.addListener(
 // Listen for tab activation
 chrome.tabs.onActivated.addListener(activeInfo => {
   chrome.tabs.get(activeInfo.tabId, tab => {
-    if (isTargetUrl(tab.url)) {
+    if (isTargetUrl("onActivated", tab.url)) {
       activeTabId = activeInfo.tabId;
       console.log("tabId", activeTabId);
-    } else {
-      activeTabId = null;
-      console.log("tabId", "null!");
     }
   });
 });
@@ -94,6 +91,8 @@ chrome.tabs.onActivated.addListener(activeInfo => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (tabId === activeTabId && changeInfo.status === "loading" && isTargetUrl(tab.url)) {
     checkUrl = "";
+  } else if (isTargetUrl(tab.url)) {
+    activeTabId = tabId;
   }
 });
 
