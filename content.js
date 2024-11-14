@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } else {
       console.log("Transaction log data not available");
       showError(
-        "トランザクションログデータが取得できませんでした。このポップアップを閉じて、もう一度お試しください。",
+        "トランザクションログデータが取得できませんでした。このポップアップを閉じてもう一度お試しください。",
         modal
       );
     }
