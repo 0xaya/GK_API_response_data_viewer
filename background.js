@@ -2,7 +2,7 @@ importScripts("shared.js");
 
 chrome.contextMenus.create({
   id: "checkEquipmentStats",
-  title: "装備のステを見る",
+  title: "装備のステータスを見る",
   contexts: ["page"],
   documentUrlPatterns: ["https://market.genso.game/*marketplace/equipments/transaction-log*"],
 });
