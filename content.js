@@ -24,10 +24,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       showEquipmentList(transactionLogsData.transactionLogs);
     } else {
       console.log("Transaction log data not available");
-      showError(
-        "トランザクションログデータが取得できませんでした。このポップアップを閉じてもう一度お試しください。",
-        modal
-      );
+      showError("トランザクションログが取得できませんでした。このポップアップを閉じてもう一度お試しください。", modal);
     }
   } else if (request.action === "displayData") {
     modal.querySelector("#modalContent").innerHTML = "";
