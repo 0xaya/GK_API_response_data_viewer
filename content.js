@@ -48,7 +48,7 @@ function showEquipmentList(transactionLogs) {
   `;
 
   const title = document.createElement("h1");
-  title.textContent = "ステータスを確認したい装備をクリック";
+  title.textContent = "ステータスを確認したい装備を選択してください";
   title.style.cssText = `
     position: absolute;
     top:20px;
